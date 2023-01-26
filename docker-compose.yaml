@@ -1,0 +1,36 @@
+# versi perintah docker compose
+version: "3.9"
+
+# membuat volume
+volumes:
+  app-db:
+    name: app-db
+
+# membuat container
+services:
+  item-app:
+    # name container
+    container_name: item-app
+    # image dari hub hasil dari push image buatan sendiri
+    image: agungfir10/item-app:v1
+    # menjalankan setelah selesai mmenjalankan docker compose, berisi perintah install dependencie, build
+    # dan start app itu sendiri
+    command: sh -c "npm install --production --unsafe-perm && npm run build && npm run start"
+    # mengalokasikan port ke host agar bisa diakses
+    restart: on-failure
+    ports:
+      - "8080:8080"
+  item-db:
+    container_name: item-db
+    # image untuk mongodb sesuai yg dibutuhkan aplikasi
+    image: mongo:3
+    # mengalokasikan port ke host agar bisa digunakan
+    ports:
+      - "27017:27017"
+    # menggunakan volume yang telah kita buat
+    restart: on-failure
+    volumes:
+      - type: volume
+        source: app-db
+        target: "/data/db"
+  
