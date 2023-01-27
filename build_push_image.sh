@@ -1,5 +1,5 @@
 # membangun image dengan nama item-app dan letak file Dockerfile
-docker build -t item-app .
+docker build -t item-app:v1 .
 # melihat semua image
 docker images
 # mengganti nama image dan tag nya
